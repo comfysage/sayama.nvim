@@ -10,10 +10,11 @@ function M.setup(config)
   end
 end
 
-function M.save(_)
+---@param props { filetype: string, name: string, ext: string }
+function M.save(props)
   -- get filetype of current buffer [ api ] -> *location*
-  local filetype = util.get_filetype()
-  local ext = util.get_file_extension()
+  local filetype = props.filetype or util.get_filetype()
+  local ext = props.ext or util.get_file_extension()
   if ext == nil then
     vim.ui.input({ prompt = 'Specify file extension: ' }, function (c)
      ext = c
@@ -22,10 +23,12 @@ function M.save(_)
   -- get selected text in buffer [ api ] -> *code*
   local buf_content = util.get_selection()
   -- get name for code example [ input ] -> *name*
-  local name = ""
-  vim.ui.input({ prompt = 'Specify snippet name: ' }, function (c)
-    name = c
-  end)
+  local name = props.name or nil
+  if name == nil then
+    vim.ui.input({ prompt = 'Specify snippet name: ' }, function (c)
+      name = c
+    end)
+  end
   -- save file with *name* in *location*
   local base_name = vim.fn.join({ name, ext }, '.')
   local ft_path = vim.fn.join({ util.root(), filetype }, '/')
