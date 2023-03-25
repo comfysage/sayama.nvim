@@ -18,8 +18,8 @@ using `lazy.nvim`:
 
 ## Usage
 
-### `sayama.save`
+### `sayama.save { filetype, name, ext }`
 
 save currently (visually) selected text to a snippet file.
-the path defaults to `.../{filetype}/{name}.{ext}`.
+the path extends to `.../{filetype}/{name}.{ext}`.
 
